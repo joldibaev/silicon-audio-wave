@@ -1,0 +1,29 @@
+{
+  "name": "audio-wave",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^13.3.0",
+    "@angular/core": "^13.3.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joldibaev/silicon-audio-wave"
+  },
+  "author": {
+    "name": "Joldibaev Nurlan",
+    "email": "nurlan@joldibaev.uz"
+  },
+  "keywords": [
+    "angular",
+    "audio",
+    "wave",
+    "sound",
+    "silicon"
+  ],
+  "bugs": {
+    "url": "https://github.com/joldibaev/silicon-audio-wave/issues"
+  }
+}
