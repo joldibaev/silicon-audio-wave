@@ -108,7 +108,8 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
     this.interval = setInterval(() => {
       const audio = this.audio?.nativeElement;
       if (audio) {
-        this.playedPercent = this.calculatePercent(this.duration, audio.currentTime);
+        const percent = this.calculatePercent(this.duration, audio.currentTime);
+        this.playedPercent = percent < 100 ? percent : 100;
         this.changeDetectorRef.markForCheck();
       }
     }, 100);
