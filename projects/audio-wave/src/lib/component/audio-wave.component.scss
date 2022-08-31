@@ -12,12 +12,12 @@
   svg {
     position: absolute;
     left: 0;
+    bottom: 0;
 
     z-index: 0;
     transition: width .3s;
 
     &.real {
-      position: relative;
       z-index: 1;
 
       rect {

@@ -21,7 +21,7 @@
         </button>
       </ng-template>
 
-      <div class="silicon-audio-wave" [style.width]="width+'px'">
+      <div class="silicon-audio-wave" [style.height]="height+'px'" [style.width]="width+'px'">
         <ng-container *ngIf="!loading; else loader">
           <svg (click)="setTime($event)"
                [attr.height]="height"
@@ -38,7 +38,6 @@
           </svg>
           <svg [attr.height]="height"
                [attr.width]="width"
-               [style.color]="color"
                [style.width]="playedPercent + '%'"
                class="fake">
             <rect *ngFor="let rect of normalizedData; index as index"
