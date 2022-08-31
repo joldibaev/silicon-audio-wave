@@ -32,8 +32,8 @@
                   [attr.width]="2"
                   [attr.x]="index * gap"
                   [attr.y]="height - (rect * height)"
-                  rx="1"
-                  ry="1">
+                  [attr.rx]="rounded ? 1 : 0"
+                  [attr.ry]="rounded ? 1 : 0">
             </rect>
           </svg>
           <svg [attr.height]="height"
@@ -46,8 +46,8 @@
                   [attr.width]="2"
                   [attr.x]="index * gap"
                   [attr.y]="height - (rect * height)"
-                  rx="1"
-                  ry="1"></rect>
+                  [attr.rx]="rounded ? 1 : 0"
+                  [attr.ry]="rounded ? 1 : 0"></rect>
           </svg>
         </ng-container>
         <ng-template #loader>

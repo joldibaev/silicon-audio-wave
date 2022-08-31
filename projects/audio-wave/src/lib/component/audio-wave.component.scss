@@ -3,22 +3,21 @@
   align-items: center;
   gap: 1rem;
 
-  height: 3rem;
+  min-height: 3rem;
 }
 
 .silicon-audio-wave {
   position: relative;
-  height: 2rem;
 
   svg {
     position: absolute;
     left: 0;
-    bottom: 0;
 
     z-index: 0;
     transition: width .3s;
 
     &.real {
+      position: relative;
       z-index: 1;
 
       rect {
@@ -63,9 +62,9 @@
 
 .silicon-audio-wave-loading {
   position: relative;
-  height: 100%;
   overflow: hidden;
 
+  height: 2rem;
   display: flex;
   gap: .5rem;
 

@@ -21,14 +21,15 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
   private subGetAudio?: Subscription;
   private interval?: ReturnType<typeof setInterval>;
   private _normalizedData: number[] = [];
+  private samples = 50;
 
   @ViewChild('audioRef') audio?: ElementRef<HTMLAudioElement>;
 
   @Input() color = '#1e90ff';
   @Input() audioSrc?: string;
-  @Input() samples = 50;
   @Input() height = 25;
   @Input() gap = 5;
+  @Input() rounded = true;
 
   error = false;
 
