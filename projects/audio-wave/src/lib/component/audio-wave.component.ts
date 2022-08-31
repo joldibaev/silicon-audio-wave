@@ -1,4 +1,13 @@
-import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Subscription} from "rxjs";
 
@@ -6,6 +15,7 @@ import {Subscription} from "rxjs";
   selector: 'silicon-audio-wave',
   templateUrl: './audio-wave.component.html',
   styleUrls: ['./audio-wave.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AudioWaveComponent implements OnInit, OnDestroy {
   private subGetAudio?: Subscription;
@@ -26,7 +36,8 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
   playedPercent = 0;
   duration = 0;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              private changeDetectorRef: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -38,9 +49,7 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.interval) {
-      clearInterval(this.interval);
-    }
+    this.stopInterval();
 
     this.subGetAudio?.unsubscribe();
   }
@@ -98,13 +107,24 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
     this.interval = setInterval(() => {
       const audio = this.audio?.nativeElement;
       if (audio) {
-        this.playedPercent = this.calculatePercent(this.duration, audio.currentTime);
+        if (!audio.paused) {
+          this.playedPercent = this.calculatePercent(this.duration, audio.currentTime);
+          this.changeDetectorRef.markForCheck();
+        }
       }
     }, 100);
   }
 
+  private stopInterval() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+  }
+
   private fetchAudio(audioSrc: string) {
     this.loading = true;
+    this.changeDetectorRef.markForCheck();
+
     this.subGetAudio = this.httpClient
       .get(audioSrc, {responseType: 'arraybuffer'})
       .subscribe({
@@ -118,11 +138,15 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
           this._normalizedData = this.normalizeData(filteredData);
 
           this.loading = false;
+          this.changeDetectorRef.markForCheck();
         },
         error: (error) => {
           console.error(error);
 
           this.error = true;
+
+          this.loading = false;
+          this.changeDetectorRef.markForCheck();
         }
       });
   }
