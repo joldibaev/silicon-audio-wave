@@ -6,7 +6,7 @@ Very simple audio wave system from Silicon
 
 Install the npm package.
 
-	npm i silicon-audio-wave --save
+	npm i audio-wave --save
 
 Import module:
 
