@@ -23,7 +23,6 @@ import {isPlatformBrowser} from "@angular/common";
 export class AudioWaveComponent implements OnInit, OnDestroy {
   private subGetAudio?: Subscription;
   private interval?: ReturnType<typeof setInterval>;
-  private _normalizedData: number[] = [];
   private samples = 50;
 
   @ViewChild('audioRef') audio?: ElementRef<HTMLAudioElement>;
@@ -36,8 +35,9 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
   @Input() hideBtn = false;
 
   error = false;
+  normalizedData: number[] = [];
 
-  loading = false;
+  loading = true;
   playedPercent = 0;
   duration = 0;
 
@@ -108,15 +108,13 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
     return this.samples * this.gap;
   }
 
-  get normalizedData() {
-    return this._normalizedData;
-  }
-
   private calculatePercent(total: number, value: number) {
     return (value / total) * 100 || 0;
   }
 
   private startInterval() {
+    this.stopInterval();
+
     this.interval = setInterval(() => {
       const audio = this.audio?.nativeElement;
       if (audio) {
@@ -151,7 +149,7 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
             this.duration = Math.round(audioBuffer.duration);
 
             const filteredData = this.filterData(audioBuffer);
-            this._normalizedData = this.normalizeData(filteredData);
+            this.normalizedData = this.normalizeData(filteredData);
           } catch (e) {
             this.error = true;
           } finally {
