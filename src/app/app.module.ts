@@ -9,7 +9,7 @@ import {AudioWaveModule} from "audio-wave";
     AppComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({appId: 'serverApp'}),
     AudioWaveModule
   ],
   providers: [],

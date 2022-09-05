@@ -1,4 +1,4 @@
-<ng-container *ngIf="audioSrc">
+<ng-container *ngIf="audioSrc && isPlatformBrowser">
   <audio #audioRef [src]="audioSrc"></audio>
 
   <div [style.--color]="color"

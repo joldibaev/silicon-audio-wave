@@ -32,20 +32,20 @@ audioSrc = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3';
 
 ```html
 <!-- rounded -->
-<silicon-audio-wave [rounded]="false" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+<silicon-audio-wave [rounded]="false" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
 
 <!-- color -->
-<silicon-audio-wave color="#ee2133" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+<silicon-audio-wave color="#ee2133" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
 
 <!-- height -->
-<silicon-audio-wave [height]="50" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
-<silicon-audio-wave [height]="100" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
-<silicon-audio-wave [height]="10" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+<silicon-audio-wave [height]="50" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
+<silicon-audio-wave [height]="100" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
+<silicon-audio-wave [height]="10" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
 
 <!-- gap -->
-<silicon-audio-wave [gap]="1" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
-<silicon-audio-wave [gap]="2" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
-<silicon-audio-wave [gap]="9" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+<silicon-audio-wave [gap]="1" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
+<silicon-audio-wave [gap]="2" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
+<silicon-audio-wave [gap]="9" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
 
 <!-- error will be displayed, cause 404 -->
 <silicon-audio-wave audioSrc="assets/no_file.mp3"></silicon-audio-wave>
@@ -56,7 +56,7 @@ audioSrc = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3';
 ### One action btn
 
 ```html
-<silicon-audio-wave #audioRef1 [hideBtn]="true" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+<silicon-audio-wave #audioRef1 [hideBtn]="true" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
 <button (click)="audioRef1.play()">Play</button>
 <button (click)="audioRef1.pause()">Pause</button>
 ```
@@ -64,7 +64,7 @@ audioSrc = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3';
 ### Toggle btn
 ```html
 <b>Toggle btn (is pause: {{audioRef2.isPause}})</b>
-<silicon-audio-wave #audioRef2 [hideBtn]="true" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+<silicon-audio-wave #audioRef2 [hideBtn]="true" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
 <button *ngIf="audioRef2.isPause" (click)="audioRef2.play()">Play</button>
 <button *ngIf="!audioRef2.isPause" (click)="audioRef2.pause()">Pause</button>
 <button (click)="audioRef2.stop()">Stop</button>
@@ -78,7 +78,7 @@ Example:
 <button *ngIf="audioRef2.audio?.nativeElement?.paused" (click)="audioRef2.play()">Play</button>
 <button *ngIf="!audioRef2.audio?.nativeElement?.paused" (click)="audioRef2.pause()">Pause</button>
 ```
-
+#### WARNING: using this code will lead to [NG0100: ExpressionChangedAfterItHasBeenCheckedError]
 
 
 ## Source
