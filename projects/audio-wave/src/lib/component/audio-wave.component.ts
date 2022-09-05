@@ -30,6 +30,7 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
   @Input() height = 25;
   @Input() gap = 5;
   @Input() rounded = true;
+  @Input() hideBtn = false;
 
   error = false;
 
@@ -98,6 +99,10 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
 
   get normalizedData() {
     return this._normalizedData;
+  }
+
+  get isPause() {
+    return this.audio?.nativeElement.paused ?? false;
   }
 
   private calculatePercent(total: number, value: number) {

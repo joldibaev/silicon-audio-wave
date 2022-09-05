@@ -1,32 +1,72 @@
-<silicon-audio-wave audioSrc="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3"></silicon-audio-wave>
+<section>
+  <silicon-audio-wave audioSrc="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3"></silicon-audio-wave>
+</section>
 
 <!-- width -->
-<b>Width</b>
-<div style="width: 200px">
-  <silicon-audio-wave audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
-</div>
+<section>
+  <b>Width</b>
+  <div style="width: 200px">
+    <silicon-audio-wave audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+  </div>
+</section>
 
 <!-- rounded -->
-<b>Rounded</b>
-<silicon-audio-wave [rounded]="false" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+<section>
+  <b>Rounded</b>
+  <silicon-audio-wave [rounded]="false" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+</section>
 
 <!-- color -->
-<b>Color</b>
-<silicon-audio-wave color="#ee2133" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+<section>
+  <b>Color</b>
+  <silicon-audio-wave color="#ee2133" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+</section>
+
+<!-- btn -->
+<section>
+  <b>Custom btn</b>
+  <silicon-audio-wave #audioRef1 [hideBtn]="true" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+  <button (click)="audioRef1.play()">Play</button>
+  <button (click)="audioRef1.pause()">Pause</button>
+</section>
+<section>
+  <b>Toggle btn (is pause: {{audioRef2.isPause}})</b>
+  <silicon-audio-wave #audioRef2 [hideBtn]="true" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+  <button *ngIf="audioRef2.isPause" (click)="audioRef2.play()">Play</button>
+  <button *ngIf="!audioRef2.isPause" (click)="audioRef2.pause()">Pause</button>
+  <button (click)="audioRef2.stop()">Stop</button>
+
+  <div>
+    or you can get access to The HTML <code>{{audioText}}</code> element inside component <br>
+    <code>audioRef2.audio?.nativeElement</code>
+  </div>
+
+  <br>
+
+  <div>Example:</div>
+  <button *ngIf="audioRef2.audio?.nativeElement?.paused" (click)="audioRef2.play()">Play</button>
+  <button *ngIf="!audioRef2.audio?.nativeElement?.paused" (click)="audioRef2.pause()">Pause</button>
+</section>
 
 <!-- height -->
-<b>Height</b>
-<silicon-audio-wave [height]="50" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
-<silicon-audio-wave [height]="100" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
-<silicon-audio-wave [height]="10" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+<section>
+  <b>Height</b>
+  <silicon-audio-wave [height]="50" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+  <silicon-audio-wave [height]="100" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+  <silicon-audio-wave [height]="10" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+</section>
 
 <!-- gap -->
-<b>Gap</b>
-<silicon-audio-wave [gap]="1" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
-<silicon-audio-wave [gap]="2" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
-<silicon-audio-wave [gap]="9" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+<section>
+  <b>Gap</b>
+  <silicon-audio-wave [gap]="1" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+  <silicon-audio-wave [gap]="2" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+  <silicon-audio-wave [gap]="9" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+</section>
 
 <!-- error will be displayed, cause 404 -->
-<b>Error</b>
-<silicon-audio-wave audioSrc="assets/no_file.mp3"></silicon-audio-wave>
+<section>
+  <b>Error</b>
+  <silicon-audio-wave audioSrc="assets/no_file.mp3"></silicon-audio-wave>
+</section>
 

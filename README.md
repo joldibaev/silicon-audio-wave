@@ -51,6 +51,36 @@ audioSrc = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3';
 <silicon-audio-wave audioSrc="assets/no_file.mp3"></silicon-audio-wave>
 ```
 
+## Custom btn
+
+### One action btn
+
+```html
+<silicon-audio-wave #audioRef1 [hideBtn]="true" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+<button (click)="audioRef1.play()">Play</button>
+<button (click)="audioRef1.pause()">Pause</button>
+```
+
+### Toggle btn
+```html
+<b>Toggle btn (is pause: {{audioRef2.isPause}})</b>
+<silicon-audio-wave #audioRef2 [hideBtn]="true" audioSrc="assets/voice_29-06-2022_23-30-15"></silicon-audio-wave>
+<button *ngIf="audioRef2.isPause" (click)="audioRef2.play()">Play</button>
+<button *ngIf="!audioRef2.isPause" (click)="audioRef2.pause()">Pause</button>
+<button (click)="audioRef2.stop()">Stop</button>
+```
+
+or you can get access to The HTML ```<audio>``` element inside component
+```audioRef2.audio?.nativeElement```
+
+Example:
+```html
+<button *ngIf="audioRef2.audio?.nativeElement?.paused" (click)="audioRef2.play()">Play</button>
+<button *ngIf="!audioRef2.audio?.nativeElement?.paused" (click)="audioRef2.pause()">Pause</button>
+```
+
+
+
 ## Source
 
 https://github.com/joldibaev/silicon-audio-wave/tree/master/projects/audio-wave
