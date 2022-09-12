@@ -146,7 +146,7 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
             const audioContext = new AudioContext();
             const audioBuffer = await audioContext.decodeAudioData(next);
 
-            this.duration = Math.round(audioBuffer.duration);
+            this.duration = audioBuffer.duration;
 
             const filteredData = this.filterData(audioBuffer);
             this.normalizedData = this.normalizeData(filteredData);
