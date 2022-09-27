@@ -2,6 +2,9 @@
 
 Very simple audio wave system from Silicon
 
+## Screen
+![alt text](https://github.com/joldibaev/silicon-audio-wave/raw/master/src/assets/demo.png)
+
 ## Installation
 
 Install the npm package.
