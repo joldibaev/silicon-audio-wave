@@ -1,7 +1,15 @@
 <img src="assets/logo-min.svg" alt="" width="16" hidden>
 
 <section>
-  <silicon-audio-wave audioSrc="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3"></silicon-audio-wave>
+  <div>played percent: {{siliconAudioWave.playedPercent}} ({{siliconAudioWave.exactPlayedPercent}})</div>
+  <div>current time: {{siliconAudioWave.currentTime}} ({{siliconAudioWave.exactCurrentTime}})</div>
+
+  <silicon-audio-wave
+    #siliconAudioWave
+    audioSrc="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3"
+  ></silicon-audio-wave>
+
+  <div>duration: {{siliconAudioWave.duration}} ({{siliconAudioWave.exactDuration}})</div>
 </section>
 
 <!-- width -->
@@ -22,6 +30,22 @@
 <section>
   <b>Color</b>
   <silicon-audio-wave color="#ee2133" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
+</section>
+
+<!-- isLoading -->
+<section>
+  <b>isLoading</b>
+  <silicon-audio-wave #audioRef audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
+  <div *ngIf="!audioRef.isLoading">
+    duration:
+    {{audioRef.currentTime|toTimer}} / {{audioRef.duration|toTimer}}
+    (no duration while loading)
+  </div>
+  <div>
+    duration:
+    {{audioRef.currentTime|toTimer}} / {{audioRef.duration|toTimer}}
+    (zero will be display while loading)
+  </div>
 </section>
 
 <!-- btn -->

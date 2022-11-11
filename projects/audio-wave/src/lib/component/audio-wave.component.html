@@ -37,7 +37,7 @@
                   [attr.ry]="rounded ? 1 : 0">
             </rect>
           </svg>
-          <div class="fake" [style.clip-path]="'inset(0px ' + (100 - playedPercent) + '% 0px 0px)'">
+          <div class="fake" [style.clip-path]="'inset(0px ' + (100 - exactPlayedPercent) + '% 0px 0px)'">
             <svg [attr.viewBox]="'0 0 ' + width + ' ' + height">
               <rect *ngFor="let rect of normalizedData; index as index"
                     [attr.height]="rect * height"

@@ -3,7 +3,7 @@
 Very simple audio wave system from Silicon
 
 ## Screen
-![alt text](https://github.com/joldibaev/silicon-audio-wave/raw/master/src/assets/demo.png)
+![alt text](https://github.com/joldibaev/silicon-audio-wave/raw/master/src/assets/demo2.png)
 
 ## Installation
 
@@ -28,7 +28,17 @@ audioSrc = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3';
 ```
 
 ```html
-<silicon-audio-wave [audioSrc]="audioSrc"></silicon-audio-wave>
+<section>
+  <div>played percent: {{siliconAudioWave.playedPercent}} ({{siliconAudioWave.exactPlayedPercent}})</div>
+  <div>current time: {{siliconAudioWave.currentTime}} ({{siliconAudioWave.exactCurrentTime}})</div>
+
+  <silicon-audio-wave
+    #siliconAudioWave
+    audioSrc="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3"
+  ></silicon-audio-wave>
+
+  <div>duration: {{siliconAudioWave.duration}} ({{siliconAudioWave.exactDuration}})</div>
+</section>
 ```
 
 ## Properties
@@ -39,6 +49,13 @@ audioSrc = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3';
 
 <!-- color -->
 <silicon-audio-wave color="#ee2133" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
+
+<!-- isLoading -->
+<section>
+  <silicon-audio-wave #audioRef color="#ee2133" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
+  <div *ngIf="!audioRef.isLoading">duration: {{siliconAudioWave.duration|toTimer}} (no duration while loading)</div>
+  <div>duration: {{siliconAudioWave.duration|toTimer}} (zero will be display while loading)</div>
+</section>
 
 <!-- height -->
 <silicon-audio-wave [height]="50" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>

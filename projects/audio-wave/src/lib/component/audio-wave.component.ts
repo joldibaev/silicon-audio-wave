@@ -11,7 +11,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Subscription} from "rxjs";
+import {interval, Subscription} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
 
 @Component({
@@ -21,8 +21,8 @@ import {isPlatformBrowser} from "@angular/common";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AudioWaveComponent implements OnInit, OnDestroy {
+  private subTimer?: Subscription;
   private subGetAudio?: Subscription;
-  private interval?: ReturnType<typeof setInterval>;
   private samples = 50;
 
   @ViewChild('audioRef') audio?: ElementRef<HTMLAudioElement>;
@@ -37,11 +37,33 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
   error = false;
   normalizedData: number[] = [];
 
-  loading = true;
-  playedPercent = 0;
-  duration = 0;
+
+  exactPlayedPercent = 0;
+
+  get playedPercent() {
+    return Math.round(this.exactPlayedPercent);
+  }
+
+  exactCurrentTime = 0;
+
+  get currentTime() {
+    return Math.round(this.exactCurrentTime);
+  }
 
   isPause = true;
+
+  loading = true;
+
+  get isLoading() {
+    return this.loading;
+  }
+
+  // duration
+  exactDuration = 0;
+
+  get duration() {
+    return Math.round(this.exactDuration);
+  }
 
   readonly isPlatformBrowser: boolean;
 
@@ -60,11 +82,10 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.stopInterval();
-
     this.stop();
 
     this.subGetAudio?.unsubscribe();
+    this.subTimer?.unsubscribe();
   }
 
   play(time: number = 0) {
@@ -99,7 +120,7 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
 
     const clickPercent = this.calculatePercent(width, offsetX);
 
-    const time = (clickPercent * this.duration) / 100;
+    const time = (clickPercent * this.exactDuration) / 100;
 
     void this.play(time);
   }
@@ -113,25 +134,20 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
   }
 
   private startInterval() {
-    this.stopInterval();
+    this.subTimer?.unsubscribe();
 
-    this.interval = setInterval(() => {
+    this.subTimer = interval(100).subscribe(() => {
       const audio = this.audio?.nativeElement;
       if (audio) {
-        const percent = this.calculatePercent(this.duration, audio.currentTime);
-        this.playedPercent = percent < 100 ? percent : 100;
+        const percent = this.calculatePercent(this.exactDuration, audio.currentTime);
+        this.exactPlayedPercent = percent < 100 ? percent : 100;
+        this.exactCurrentTime = audio.currentTime;
 
         this.isPause = audio.paused;
 
         this.changeDetectorRef.markForCheck();
       }
-    }, 100);
-  }
-
-  private stopInterval() {
-    if (this.interval) {
-      clearInterval(this.interval);
-    }
+    })
   }
 
   private fetchAudio(audioSrc: string) {
@@ -146,7 +162,7 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
             const audioContext = new AudioContext();
             const audioBuffer = await audioContext.decodeAudioData(next);
 
-            this.duration = audioBuffer.duration;
+            this.exactDuration = audioBuffer.duration;
 
             const filteredData = this.filterData(audioBuffer);
             this.normalizedData = this.normalizeData(filteredData);
