@@ -25,18 +25,17 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
   private subTimer?: Subscription;
   private subGetAudio?: Subscription;
 
-  @ViewChild('audioRef') audio?: ElementRef<HTMLAudioElement>;
+  @ViewChild('audioRef') private audio?: ElementRef<HTMLAudioElement>;
 
-  @Input() color = '#1e90ff';
+  @Input() color: string = '#1e90ff';
   @Input({required: true}) audioSrc?: string;
-  @Input() height = 25;
-  @Input() gap = 5;
-  @Input() rounded = true;
-  @Input() hideBtn = false;
+  @Input() height: number = 25;
+  @Input() gap: number = 5;
+  @Input() rounded: boolean = true;
+  @Input() hideBtn: boolean = false;
 
   error = false;
-  normalizedData: number[] = [];
-
+  protected normalizedData: number[] = [];
 
   exactPlayedPercent = 0;
 
@@ -45,33 +44,26 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
   }
 
   exactCurrentTime = 0;
-
   get currentTime() {
     return Math.round(this.exactCurrentTime);
   }
 
   isPause = true;
 
-  loading = true;
-
-  get isLoading() {
-    return this.loading;
-  }
+  isLoading = true;
 
   // duration
   exactDuration = 0;
-
   get duration() {
     return Math.round(this.exactDuration);
   }
 
-  readonly isPlatformBrowser: boolean;
+  protected readonly isPlatformBrowser = isPlatformBrowser(this.platformId);
 
-  constructor(@Inject(PLATFORM_ID) platformId: object,
+  constructor(@Inject(PLATFORM_ID) private platformId: object,
               private httpClient: HttpClient,
               private audioWaveService: AudioWaveService,
               private changeDetectorRef: ChangeDetectorRef) {
-    this.isPlatformBrowser = isPlatformBrowser(platformId);
   }
 
   ngOnInit() {
@@ -152,7 +144,7 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
   }
 
   private fetchAudio(audioSrc: string) {
-    this.loading = true;
+    this.isLoading = true;
     this.changeDetectorRef.markForCheck();
 
     this.subGetAudio = this.httpClient
@@ -170,7 +162,7 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
           } catch (e) {
             this.error = true;
           } finally {
-            this.loading = false;
+            this.isLoading = false;
             this.changeDetectorRef.markForCheck();
           }
         },
@@ -179,7 +171,7 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
 
           this.error = true;
 
-          this.loading = false;
+          this.isLoading = false;
           this.changeDetectorRef.markForCheck();
         }
       });

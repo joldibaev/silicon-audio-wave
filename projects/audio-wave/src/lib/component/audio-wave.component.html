@@ -24,7 +24,7 @@
       </ng-container>
 
       <div class="silicon-audio-wave" [style.height]="height+'px'" [style.width]="width+'px'">
-        <ng-container *ngIf="!loading; else loader">
+        <ng-container *ngIf="!isLoading; else loader">
           <svg (click)="setTime($event)"
                [attr.viewBox]="'0 0 ' + width + ' ' + height"
                class="real">
