@@ -2,12 +2,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "paths": {
-      "audio-wave": [
-        "dist/audio-wave/audio-wave",
-        "dist/audio-wave"
-      ]
-    },
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
@@ -23,12 +17,12 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "es2020",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
     "lib": [
-      "es2020",
+      "ES2022",
       "dom"
-    ],
-    "useDefineForClassFields": false
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
