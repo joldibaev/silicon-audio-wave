@@ -1,9 +1,9 @@
 {
   "name": "audio-wave",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "peerDependencies": {
-    "@angular/common": ">=15.0.0",
-    "@angular/core": ">=13.0.0"
+    "@angular/common": ">=15.0.0 <18.0.0",
+    "@angular/core": ">=13.0.0 <18.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

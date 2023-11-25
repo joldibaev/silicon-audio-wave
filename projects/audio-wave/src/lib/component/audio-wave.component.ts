@@ -28,7 +28,7 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
   @ViewChild('audioRef') audio?: ElementRef<HTMLAudioElement>;
 
   @Input() color = '#1e90ff';
-  @Input() audioSrc?: string;
+  @Input({required: true}) audioSrc?: string;
   @Input() height = 25;
   @Input() gap = 5;
   @Input() rounded = true;
