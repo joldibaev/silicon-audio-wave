@@ -1,106 +1,27 @@
-# Audio Wave for Angular 13+
+# Sample
 
-Very simple audio wave system from Silicon
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.10.
 
-## Screen
-![alt text](https://github.com/joldibaev/silicon-audio-wave/raw/master/src/assets/demo2.png)
+## Development server
 
-## Installation
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-Install the npm package.
+## Code scaffolding
 
-	npm i audio-wave --save
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-Import module:
+## Build
 
-```ts
-import {AudioWaveModule} from "audio-wave";
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-@NgModule({
-  imports: [AudioWaveModule]
-})
-```
+## Running unit tests
 
-## Usage
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-```ts
-audioSrc = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3';
-```
+## Running end-to-end tests
 
-```html
-<section>
-  <div>played percent: {{siliconAudioWave.playedPercent}} ({{siliconAudioWave.exactPlayedPercent}})</div>
-  <div>current time: {{siliconAudioWave.currentTime}} ({{siliconAudioWave.exactCurrentTime}})</div>
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-  <silicon-audio-wave
-    #siliconAudioWave
-    audioSrc="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3"
-  ></silicon-audio-wave>
+## Further help
 
-  <div>duration: {{siliconAudioWave.duration}} ({{siliconAudioWave.exactDuration}})</div>
-</section>
-```
-
-## Properties
-
-```html
-<!-- rounded -->
-<silicon-audio-wave [rounded]="false" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
-
-<!-- color -->
-<silicon-audio-wave color="#ee2133" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
-
-<!-- isLoading -->
-<section>
-  <silicon-audio-wave #audioRef color="#ee2133" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
-  <div *ngIf="!audioRef.isLoading">duration: {{siliconAudioWave.duration|toTimer}} (no duration while loading)</div>
-  <div>duration: {{siliconAudioWave.duration|toTimer}} (zero will be display while loading)</div>
-</section>
-
-<!-- height -->
-<silicon-audio-wave [height]="50" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
-<silicon-audio-wave [height]="100" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
-<silicon-audio-wave [height]="10" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
-
-<!-- gap -->
-<silicon-audio-wave [gap]="1" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
-<silicon-audio-wave [gap]="2" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
-<silicon-audio-wave [gap]="9" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
-
-<!-- error will be displayed, cause 404 -->
-<silicon-audio-wave audioSrc="assets/no_file.mp3"></silicon-audio-wave>
-```
-
-## Custom btn
-
-### One action btn
-
-```html
-<silicon-audio-wave #audioRef1 [hideBtn]="true" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
-<button (click)="audioRef1.play()">Play</button>
-<button (click)="audioRef1.pause()">Pause</button>
-```
-
-### Toggle btn
-```html
-<b>Toggle btn (is pause: {{audioRef2.isPause}})</b>
-<silicon-audio-wave #audioRef2 [hideBtn]="true" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></silicon-audio-wave>
-<button *ngIf="audioRef2.isPause" (click)="audioRef2.play()">Play</button>
-<button *ngIf="!audioRef2.isPause" (click)="audioRef2.pause()">Pause</button>
-<button (click)="audioRef2.stop()">Stop</button>
-```
-
-or you can get access to The HTML ```<audio>``` element inside component
-```audioRef2.audio?.nativeElement```
-
-Example:
-```html
-<button *ngIf="audioRef2.audio?.nativeElement?.paused" (click)="audioRef2.play()">Play</button>
-<button *ngIf="!audioRef2.audio?.nativeElement?.paused" (click)="audioRef2.pause()">Pause</button>
-```
-#### WARNING: using this code will lead to [NG0100: ExpressionChangedAfterItHasBeenCheckedError]
-
-
-## Source
-
-https://github.com/joldibaev/silicon-audio-wave/tree/master/projects/audio-wave
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

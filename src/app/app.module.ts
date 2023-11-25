@@ -1,17 +1,17 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {AppComponent} from './app.component';
-import {ToTimerPipe} from "./pipes/to-timer.pipe";
 
-import {AudioWaveModule} from "audio-wave";
+import {AppComponent} from './app.component';
+import {AudioWaveModule} from "../../projects/audio-wave/src/lib/audio-wave.module";
+import {ToTimerPipe} from "./pipes/to-timer.pipe";
 
 @NgModule({
   declarations: [
-    ToTimerPipe,
-    AppComponent
+    AppComponent,
+    ToTimerPipe
   ],
   imports: [
-    BrowserModule.withServerTransition({appId: 'serverApp'}),
+    BrowserModule,
     AudioWaveModule
   ],
   providers: [],

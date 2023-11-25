@@ -11,8 +11,8 @@ import {
   ViewChild
 } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {interval, Subscription} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
+import {interval, Subscription} from "rxjs";
 
 @Component({
   selector: 'silicon-audio-wave',
