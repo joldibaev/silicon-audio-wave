@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {isPlatformBrowser} from "@angular/common";
-import {interval, Subscription} from "rxjs";
+import {finalize, interval, Subscription} from "rxjs";
 import {AudioWaveService} from "../service/audio-wave.service";
 
 @Component({
@@ -128,7 +128,6 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
 
   private startInterval() {
     this.subTimer?.unsubscribe();
-
     this.subTimer = interval(100).subscribe(() => {
       const audio = this.audio?.nativeElement;
       if (audio) {
@@ -147,8 +146,13 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.changeDetectorRef.markForCheck();
 
+    this.subGetAudio?.unsubscribe();
     this.subGetAudio = this.httpClient
       .get(audioSrc, {responseType: 'arraybuffer'})
+      .pipe(finalize(() => {
+        this.isLoading = false;
+        this.changeDetectorRef.markForCheck();
+      }))
       .subscribe({
         next: async (next) => {
           try {
@@ -161,18 +165,12 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
             this.normalizedData = this.audioWaveService.normalizeData(filteredData);
           } catch (e) {
             this.error = true;
-          } finally {
-            this.isLoading = false;
-            this.changeDetectorRef.markForCheck();
           }
         },
         error: (error) => {
           console.error(error);
 
           this.error = true;
-
-          this.isLoading = false;
-          this.changeDetectorRef.markForCheck();
         }
       });
   }

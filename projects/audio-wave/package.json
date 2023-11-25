@@ -1,6 +1,6 @@
 {
   "name": "audio-wave",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "peerDependencies": {
     "@angular/common": ">=15.0.0 <18.0.0",
     "@angular/core": ">=15.0.0 <18.0.0"
