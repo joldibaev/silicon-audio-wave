@@ -18,11 +18,14 @@
     "email": "nurlan@joldibaev.uz"
   },
   "keywords": [
+    "ngx",
     "angular",
+    "audio-wave",
     "audio",
     "wave",
-    "sound",
-    "silicon"
+    "player",
+    "music",
+    "sound"
   ],
   "bugs": {
     "url": "https://github.com/joldibaev/silicon-audio-wave/issues"

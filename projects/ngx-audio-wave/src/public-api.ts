@@ -1,5 +1,5 @@
 /*
- * Public API Surface of audio-wave
+ * Public API Surface of ngx-audio-wave
  */
 
 export * from './lib/service/audio-wave.service';

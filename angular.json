@@ -154,23 +154,23 @@
         }
       }
     },
-    "audio-wave": {
+    "ngx-audio-wave": {
       "projectType": "library",
-      "root": "projects/audio-wave",
-      "sourceRoot": "projects/audio-wave/src",
-      "prefix": "silicon",
+      "root": "projects/ngx-audio-wave",
+      "sourceRoot": "projects/ngx-audio-wave/src",
+      "prefix": "ngx",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/audio-wave/ng-package.json"
+            "project": "projects/ngx-audio-wave/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/audio-wave/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ngx-audio-wave/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/audio-wave/tsconfig.lib.json"
+              "tsConfig": "projects/ngx-audio-wave/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -178,7 +178,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": "projects/audio-wave/tsconfig.spec.json",
+            "tsConfig": "projects/ngx-audio-wave/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
