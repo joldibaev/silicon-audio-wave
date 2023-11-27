@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
-import {AudioWaveModule} from "../../projects/audio-wave/src/lib/audio-wave.module";
+import {AudioWaveModule} from "../../projects/ngx-audio-wave/src/lib/audio-wave.module";
 import {ToTimerPipe} from "./pipes/to-timer.pipe";
 
 @NgModule({

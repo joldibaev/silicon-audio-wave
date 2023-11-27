@@ -1,6 +1,6 @@
 {
-  "name": "audio-wave",
-  "version": "0.1.5",
+  "name": "ngx-audio-wave",
+  "version": "0.2.0",
   "peerDependencies": {
     "@angular/common": ">=16.0.0 <18.0.0",
     "@angular/core": ">=16.0.0 <18.0.0"
@@ -18,11 +18,14 @@
     "email": "nurlan@joldibaev.uz"
   },
   "keywords": [
+    "ngx",
     "angular",
+    "audio-wave",
     "audio",
     "wave",
-    "sound",
-    "silicon"
+    "player",
+    "music",
+    "sound"
   ],
   "bugs": {
     "url": "https://github.com/joldibaev/silicon-audio-wave/issues"
