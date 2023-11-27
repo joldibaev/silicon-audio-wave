@@ -3,13 +3,13 @@
 Very simple audio wave system
 
 ## Screen
-![alt text](https://github.com/joldibaev/ngx-audio-wave/raw/master/src/assets/demo2.png)
+![alt text](https://github.com/joldibaev/silicon-audio-wave/raw/master/src/assets/demo2.png)
 
 ## Installation
 
 Install the npm package.
 
-	npm i audio-wave --save
+	npm i ngx-audio-wave --save
 
 Import module:
 
