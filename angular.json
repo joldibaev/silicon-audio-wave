@@ -154,23 +154,23 @@
         }
       }
     },
-    "ngx-audio-wave": {
+    "@silicon/ngx-audio-wave": {
       "projectType": "library",
-      "root": "projects/ngx-audio-wave",
-      "sourceRoot": "projects/ngx-audio-wave/src",
+      "root": "projects/silicon/ngx-audio-wave",
+      "sourceRoot": "projects/silicon/ngx-audio-wave/src",
       "prefix": "ngx",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/ngx-audio-wave/ng-package.json"
+            "project": "projects/silicon/ngx-audio-wave/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/ngx-audio-wave/tsconfig.lib.prod.json"
+              "tsConfig": "projects/silicon/ngx-audio-wave/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/ngx-audio-wave/tsconfig.lib.json"
+              "tsConfig": "projects/silicon/ngx-audio-wave/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -178,7 +178,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": "projects/ngx-audio-wave/tsconfig.spec.json",
+            "tsConfig": "projects/silicon/ngx-audio-wave/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"

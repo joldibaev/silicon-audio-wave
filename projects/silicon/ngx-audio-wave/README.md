@@ -9,7 +9,7 @@ Very simple audio wave system
 
 Install the npm package.
 
-	npm i ngx-audio-wave --save
+	npm i @silicon/ngx-audio-wave --save
 
 Import module:
 
