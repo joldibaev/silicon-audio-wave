@@ -103,4 +103,4 @@ Example:
 
 ## Source
 
-https://github.com/joldibaev/ngx-audio-wave/tree/master/projects/audio-wave
+https://github.com/joldibaev/silicon-audio-wave/tree/master/projects/audio-wave
