@@ -1,4 +1,4 @@
-.silicon-audio-wave-wrapper {
+.ngx-audio-wave-wrapper {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -6,7 +6,7 @@
   min-height: 3rem;
 }
 
-.silicon-audio-wave {
+.ngx-audio-wave {
   position: relative;
   cursor: pointer;
 
@@ -41,7 +41,7 @@
   }
 }
 
-.silicon-audio-wave-btn {
+.ngx-audio-wave-btn {
   border: none;
   //background: none;
   width: 2rem;
@@ -67,7 +67,7 @@
   }
 }
 
-.silicon-audio-wave-loading {
+.ngx-audio-wave-loading {
   position: relative;
   overflow: hidden;
 
@@ -83,11 +83,11 @@
     border-radius: 4px;
     opacity: .1;
 
-    animation: silicon-audio-wave-loading-anim .75s infinite;
+    animation: ngx-audio-wave-loading-anim .75s infinite;
   }
 }
 
-@keyframes silicon-audio-wave-loading-anim {
+@keyframes ngx-audio-wave-loading-anim {
   from {
     transform: translateY(-100%);
   }

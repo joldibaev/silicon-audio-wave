@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/audio-wave",
+  "dest": "../../dist/ngx-audio-wave",
   "lib": {
     "entryFile": "src/public-api.ts"
   }

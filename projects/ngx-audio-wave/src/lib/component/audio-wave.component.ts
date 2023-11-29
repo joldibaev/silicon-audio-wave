@@ -16,7 +16,7 @@ import {finalize, interval, Subscription} from "rxjs";
 import {AudioWaveService} from "../service/audio-wave.service";
 
 @Component({
-  selector: 'silicon-audio-wave',
+  selector: 'ngx-audio-wave',
   templateUrl: './audio-wave.component.html',
   styleUrls: ['./audio-wave.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
