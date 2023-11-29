@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
-import {AudioWaveModule} from "../../projects/ngx-audio-wave/src/lib/audio-wave.module";
+import {NgxAudioWaveModule} from "../../projects/ngx-audio-wave/src/lib/ngx-audio-wave.module";
 import {ToTimerPipe} from "./pipes/to-timer.pipe";
 
 @NgModule({
@@ -12,7 +12,7 @@ import {ToTimerPipe} from "./pipes/to-timer.pipe";
   ],
   imports: [
     BrowserModule,
-    AudioWaveModule
+    NgxAudioWaveModule
   ],
   providers: [],
   bootstrap: [AppComponent]

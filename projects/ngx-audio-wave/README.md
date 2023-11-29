@@ -14,10 +14,10 @@ Install the npm package.
 Import module:
 
 ```ts
-import {AudioWaveModule} from "audio-wave";
+import {NgxAudioWaveModule} from "ngx-audio-wave";
 
 @NgModule({
-  imports: [AudioWaveModule]
+  imports: [NgxAudioWaveModule]
 })
 ```
 

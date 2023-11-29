@@ -13,15 +13,15 @@ import {
 import {HttpClient} from "@angular/common/http";
 import {isPlatformBrowser} from "@angular/common";
 import {finalize, interval, Subscription} from "rxjs";
-import {AudioWaveService} from "../service/audio-wave.service";
+import {NgxAudioWaveService} from "../service/ngx-audio-wave.service";
 
 @Component({
   selector: 'ngx-audio-wave',
-  templateUrl: './audio-wave.component.html',
-  styleUrls: ['./audio-wave.component.scss'],
+  templateUrl: './ngx-audio-wave.component.html',
+  styleUrls: ['./ngx-audio-wave.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AudioWaveComponent implements OnInit, OnDestroy {
+export class NgxAudioWaveComponent implements OnInit, OnDestroy {
   private subTimer?: Subscription;
   private subGetAudio?: Subscription;
 
@@ -62,7 +62,7 @@ export class AudioWaveComponent implements OnInit, OnDestroy {
 
   constructor(@Inject(PLATFORM_ID) private platformId: object,
               private httpClient: HttpClient,
-              private audioWaveService: AudioWaveService,
+              private audioWaveService: NgxAudioWaveService,
               private changeDetectorRef: ChangeDetectorRef) {
   }
 

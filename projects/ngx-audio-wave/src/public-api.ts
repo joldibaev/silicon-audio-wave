@@ -2,6 +2,6 @@
  * Public API Surface of ngx-audio-wave
  */
 
-export * from './lib/service/audio-wave.service';
-export * from './lib/component/audio-wave.component';
-export * from './lib/audio-wave.module';
+export * from './lib/service/ngx-audio-wave.service';
+export * from './lib/component/ngx-audio-wave.component';
+export * from './lib/ngx-audio-wave.module';

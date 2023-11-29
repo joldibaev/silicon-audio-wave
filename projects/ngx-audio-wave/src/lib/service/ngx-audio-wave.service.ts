@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 
 @Injectable()
-export class AudioWaveService {
+export class NgxAudioWaveService {
   samples = 50;
 
   /**

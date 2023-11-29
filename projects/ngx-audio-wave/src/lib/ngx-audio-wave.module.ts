@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
-import {AudioWaveComponent} from './component/audio-wave.component';
+import {NgxAudioWaveComponent} from './component/ngx-audio-wave.component';
 import {HttpClientModule} from "@angular/common/http";
 import {CommonModule} from "@angular/common";
-import {AudioWaveService} from "./service/audio-wave.service";
+import {NgxAudioWaveService} from "./service/ngx-audio-wave.service";
 
 const components = [
-  AudioWaveComponent
+  NgxAudioWaveComponent
 ]
 
 @NgModule({
@@ -14,8 +14,8 @@ const components = [
     CommonModule,
     HttpClientModule,
   ],
-  providers: [AudioWaveService],
+  providers: [NgxAudioWaveService],
   exports: [...components]
 })
-export class AudioWaveModule {
+export class NgxAudioWaveModule {
 }
