@@ -1,27 +1,106 @@
-# Sample
+# Audio Wave for Angular 13+
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.10.
+Very simple audio wave system
 
-## Development server
+## Screen
+![alt text](https://github.com/joldibaev/silicon-audio-wave/raw/master/src/assets/demo2.png)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Installation
 
-## Code scaffolding
+Install the npm package.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+	npm i ngx-audio-wave --save
 
-## Build
+Import module:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```ts
+import {NgxAudioWaveModule} from "ngx-audio-wave";
 
-## Running unit tests
+@NgModule({
+  imports: [NgxAudioWaveModule]
+})
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Usage
 
-## Running end-to-end tests
+```ts
+audioSrc = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3';
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```html
+<section>
+  <div>played percent: {{ngxAudioWave.playedPercent}} ({{ngxAudioWave.exactPlayedPercent}})</div>
+  <div>current time: {{ngxAudioWave.currentTime}} ({{ngxAudioWave.exactCurrentTime}})</div>
 
-## Further help
+  <ngx-audio-wave
+    #ngxAudioWave
+    audioSrc="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3"
+  ></ngx-audio-wave>
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+  <div>duration: {{ngxAudioWave.duration}} ({{ngxAudioWave.exactDuration}})</div>
+</section>
+```
+
+## Properties
+
+```html
+<!-- rounded -->
+<ngx-audio-wave [rounded]="false" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+
+<!-- color -->
+<ngx-audio-wave color="#ee2133" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+
+<!-- isLoading -->
+<section>
+  <ngx-audio-wave #audioRef color="#ee2133" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+  <div *ngIf="!audioRef.isLoading">duration: {{ngxAudioWave.duration|toTimer}} (no duration while loading)</div>
+  <div>duration: {{ngxAudioWave.duration|toTimer}} (zero will be display while loading)</div>
+</section>
+
+<!-- height -->
+<ngx-audio-wave [height]="50" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+<ngx-audio-wave [height]="100" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+<ngx-audio-wave [height]="10" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+
+<!-- gap -->
+<ngx-audio-wave [gap]="1" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+<ngx-audio-wave [gap]="2" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+<ngx-audio-wave [gap]="9" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+
+<!-- error will be displayed, cause 404 -->
+<ngx-audio-wave audioSrc="assets/no_file.mp3"></ngx-audio-wave>
+```
+
+## Custom btn
+
+### One action btn
+
+```html
+<ngx-audio-wave #audioRef1 [hideBtn]="true" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+<button (click)="audioRef1.play()">Play</button>
+<button (click)="audioRef1.pause()">Pause</button>
+```
+
+### Toggle btn
+```html
+<b>Toggle btn (is pause: {{audioRef2.isPause}})</b>
+<ngx-audio-wave #audioRef2 [hideBtn]="true" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+<button *ngIf="audioRef2.isPause" (click)="audioRef2.play()">Play</button>
+<button *ngIf="!audioRef2.isPause" (click)="audioRef2.pause()">Pause</button>
+<button (click)="audioRef2.stop()">Stop</button>
+```
+
+or you can get access to The HTML ```<audio>``` element inside component
+```audioRef2.audio?.nativeElement```
+
+Example:
+```html
+<button *ngIf="audioRef2.audio?.nativeElement?.paused" (click)="audioRef2.play()">Play</button>
+<button *ngIf="!audioRef2.audio?.nativeElement?.paused" (click)="audioRef2.pause()">Pause</button>
+```
+#### WARNING: using this code will lead to [NG0100: ExpressionChangedAfterItHasBeenCheckedError]
+
+
+## Source
+
+https://github.com/joldibaev/silicon-audio-wave/tree/master/projects/ngx-audio-wave
