@@ -10,7 +10,7 @@ import {
   PLATFORM_ID,
   ViewChild
 } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {isPlatformBrowser} from "@angular/common";
 import {finalize, interval, Subscription} from "rxjs";
 import {NgxAudioWaveService} from "../service/ngx-audio-wave.service";
