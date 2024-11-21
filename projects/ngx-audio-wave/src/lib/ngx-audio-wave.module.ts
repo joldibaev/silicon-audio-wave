@@ -4,15 +4,12 @@ import {provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 import {CommonModule} from "@angular/common";
 import {NgxAudioWaveService} from "./service/ngx-audio-wave.service";
 
-const components = [
-  NgxAudioWaveComponent
-]
 
 @NgModule({
-  declarations: [...components],
-  exports: [...components],
-  imports: [CommonModule],
-  providers: [NgxAudioWaveService, provideHttpClient(withInterceptorsFromDi())]
+    declarations: [NgxAudioWaveComponent],
+    exports: [NgxAudioWaveComponent],
+    imports: [CommonModule],
+    providers: [NgxAudioWaveService, provideHttpClient(withInterceptorsFromDi())]
 })
 export class NgxAudioWaveModule {
 }

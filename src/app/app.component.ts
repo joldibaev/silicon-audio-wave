@@ -1,10 +1,12 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {Component} from '@angular/core';
+import {ToTimerPipe} from './pipes/to-timer.pipe';
+import {NgxAudioWaveModule} from 'ngx-audio-wave';
 
 @Component({
   selector: 'app-root',
+  imports: [NgxAudioWaveModule, ToTimerPipe],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   audioText = '<audio>';

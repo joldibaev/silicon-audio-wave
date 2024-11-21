@@ -1,4 +1,4 @@
-<ng-container *ngIf="audioSrc && isPlatformBrowser">
+@if (audioSrc && isPlatformBrowser) {
   <audio #audioRef [src]="audioSrc"></audio>
 
   <div [style.--color]="color"
@@ -63,4 +63,4 @@
       Some errors occured
     </ng-template>
   </div>
-</ng-container>
+}

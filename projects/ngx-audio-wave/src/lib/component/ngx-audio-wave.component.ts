@@ -2,31 +2,29 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
-  Inject,
+  inject,
   Input,
   OnDestroy,
   OnInit,
   PLATFORM_ID,
   ViewChild
 } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {isPlatformBrowser} from "@angular/common";
-import {finalize, interval, Subscription} from "rxjs";
+import {finalize, interval} from "rxjs";
 import {NgxAudioWaveService} from "../service/ngx-audio-wave.service";
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
+  standalone: false,
   selector: 'ngx-audio-wave',
   templateUrl: './ngx-audio-wave.component.html',
   styleUrls: ['./ngx-audio-wave.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgxAudioWaveComponent implements OnInit, OnDestroy {
-  private subTimer?: Subscription;
-  private subGetAudio?: Subscription;
-
-  @ViewChild('audioRef') private audio?: ElementRef<HTMLAudioElement>;
-
   @Input() color: string = '#1e90ff';
   @Input({required: true}) audioSrc?: string;
   @Input() height: number = 25;
@@ -35,35 +33,39 @@ export class NgxAudioWaveComponent implements OnInit, OnDestroy {
   @Input() hideBtn: boolean = false;
 
   error = false;
-  protected normalizedData: number[] = [];
-
   exactPlayedPercent = 0;
+  exactCurrentTime = 0;
+  isPause = true;
+  isLoading = true;
+  // duration
+  exactDuration = 0;
+  protected normalizedData: number[] = [];
+  private readonly platformId = inject(PLATFORM_ID);
+  protected readonly isPlatformBrowser = isPlatformBrowser(this.platformId);
+  private readonly httpClient = inject(HttpClient);
+  private readonly audioWaveService = inject(NgxAudioWaveService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private destroyRef = inject(DestroyRef);
+
+  @ViewChild('audioRef') private audio?: ElementRef<HTMLAudioElement>;
+
+  constructor() {
+  }
 
   get playedPercent() {
     return Math.round(this.exactPlayedPercent);
   }
 
-  exactCurrentTime = 0;
   get currentTime() {
     return Math.round(this.exactCurrentTime);
   }
 
-  isPause = true;
-
-  isLoading = true;
-
-  // duration
-  exactDuration = 0;
   get duration() {
     return Math.round(this.exactDuration);
   }
 
-  protected readonly isPlatformBrowser = isPlatformBrowser(this.platformId);
-
-  constructor(@Inject(PLATFORM_ID) private platformId: object,
-              private httpClient: HttpClient,
-              private audioWaveService: NgxAudioWaveService,
-              private changeDetectorRef: ChangeDetectorRef) {
+  get width() {
+    return this.audioWaveService.samples * this.gap;
   }
 
   ngOnInit() {
@@ -76,9 +78,6 @@ export class NgxAudioWaveComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.stop();
-
-    this.subGetAudio?.unsubscribe();
-    this.subTimer?.unsubscribe();
   }
 
   play(time: number = 0) {
@@ -118,41 +117,40 @@ export class NgxAudioWaveComponent implements OnInit, OnDestroy {
     void this.play(time);
   }
 
-  get width() {
-    return this.audioWaveService.samples * this.gap;
-  }
-
   private calculatePercent(total: number, value: number) {
     return (value / total) * 100 || 0;
   }
 
   private startInterval() {
-    this.subTimer?.unsubscribe();
-    this.subTimer = interval(100).subscribe(() => {
-      const audio = this.audio?.nativeElement;
-      if (audio) {
-        const percent = this.calculatePercent(this.exactDuration, audio.currentTime);
-        this.exactPlayedPercent = percent < 100 ? percent : 100;
-        this.exactCurrentTime = audio.currentTime;
+    interval(100)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        const audio = this.audio?.nativeElement;
+        if (audio) {
+          const percent = this.calculatePercent(this.exactDuration, audio.currentTime);
+          this.exactPlayedPercent = percent < 100 ? percent : 100;
+          this.exactCurrentTime = audio.currentTime;
 
-        this.isPause = audio.paused;
+          this.isPause = audio.paused;
 
-        this.changeDetectorRef.markForCheck();
-      }
-    })
+          this.changeDetectorRef.markForCheck();
+        }
+      })
   }
 
   private fetchAudio(audioSrc: string) {
     this.isLoading = true;
     this.changeDetectorRef.markForCheck();
 
-    this.subGetAudio?.unsubscribe();
-    this.subGetAudio = this.httpClient
+    this.httpClient
       .get(audioSrc, {responseType: 'arraybuffer'})
-      .pipe(finalize(() => {
-        this.isLoading = false;
-        this.changeDetectorRef.markForCheck();
-      }))
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+          this.changeDetectorRef.markForCheck();
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe({
         next: async (next) => {
           try {
