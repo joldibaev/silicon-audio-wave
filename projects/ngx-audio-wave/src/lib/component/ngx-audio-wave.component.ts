@@ -1,14 +1,14 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   DestroyRef,
   ElementRef,
   inject,
-  Input,
+  input,
   OnDestroy,
   OnInit,
   PLATFORM_ID,
+  signal,
   ViewChild
 } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
@@ -25,52 +25,70 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgxAudioWaveComponent implements OnInit, OnDestroy {
-  @Input() color: string = '#1e90ff';
-  @Input({required: true}) audioSrc?: string;
-  @Input() height: number = 25;
-  @Input() gap: number = 5;
-  @Input() rounded: boolean = true;
-  @Input() hideBtn: boolean = false;
+  color = input('#1e90ff');
+  audioSrc = input.required<string>();
+  height = input(25);
+  gap = input(5)
+  rounded = input(true);
+  hideBtn = input(false);
 
-  error = false;
-  exactPlayedPercent = 0;
-  exactCurrentTime = 0;
-  isPause = true;
-  isLoading = true;
-  // duration
-  exactDuration = 0;
-  protected normalizedData: number[] = [];
+  protected _error = signal(false);
+  protected _exactPlayedPercent = signal(0);
+  protected _exactCurrentTime = signal(0);
+  protected _isPause = signal(true);
+  protected _isLoading = signal(true);
+
+  protected _exactDuration = signal(0);
+  protected _normalizedData = signal<number[]>([]);
+
+  // injecting
   private readonly platformId = inject(PLATFORM_ID);
-  protected readonly isPlatformBrowser = isPlatformBrowser(this.platformId);
+  private readonly isPlatformBrowser = isPlatformBrowser(this.platformId);
   private readonly httpClient = inject(HttpClient);
   private readonly audioWaveService = inject(NgxAudioWaveService);
-  private readonly changeDetectorRef = inject(ChangeDetectorRef);
-  private destroyRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   @ViewChild('audioRef') private audio?: ElementRef<HTMLAudioElement>;
 
-  constructor() {
+  get exactPlayedPercent() {
+    return this._exactPlayedPercent();
+  }
+
+  get exactDuration() {
+    return this._exactDuration();
+  }
+
+  get exactCurrentTime() {
+    return this._exactCurrentTime();
+  }
+
+  get isPause() {
+    return this._isPause();
+  }
+
+  get isLoading() {
+    return this._isLoading();
   }
 
   get playedPercent() {
-    return Math.round(this.exactPlayedPercent);
+    return Math.round(this._exactPlayedPercent());
   }
 
   get currentTime() {
-    return Math.round(this.exactCurrentTime);
+    return Math.round(this._exactCurrentTime());
   }
 
   get duration() {
-    return Math.round(this.exactDuration);
+    return Math.round(this._exactDuration());
   }
 
   get width() {
-    return this.audioWaveService.samples * this.gap;
+    return this.audioWaveService.samples * this.gap();
   }
 
   ngOnInit() {
-    if (this.audioSrc && this.isPlatformBrowser) {
-      this.fetchAudio(this.audioSrc);
+    if (this.isPlatformBrowser) {
+      this.fetchAudio(this.audioSrc());
 
       this.startInterval();
     }
@@ -81,6 +99,8 @@ export class NgxAudioWaveComponent implements OnInit, OnDestroy {
   }
 
   play(time: number = 0) {
+    if (!this.isPlatformBrowser) return;
+
     const audio = this.audio?.nativeElement;
     if (audio) {
       void audio.play();
@@ -92,6 +112,8 @@ export class NgxAudioWaveComponent implements OnInit, OnDestroy {
   }
 
   pause() {
+    if (!this.isPlatformBrowser) return;
+
     const audio = this.audio?.nativeElement;
     if (audio) {
       audio.pause();
@@ -99,6 +121,8 @@ export class NgxAudioWaveComponent implements OnInit, OnDestroy {
   }
 
   stop() {
+    if (!this.isPlatformBrowser) return;
+
     const audio = this.audio?.nativeElement;
     if (audio) {
       audio.currentTime = 0;
@@ -112,7 +136,7 @@ export class NgxAudioWaveComponent implements OnInit, OnDestroy {
 
     const clickPercent = this.calculatePercent(width, offsetX);
 
-    const time = (clickPercent * this.exactDuration) / 100;
+    const time = (clickPercent * this._exactDuration()) / 100;
 
     void this.play(time);
   }
@@ -127,27 +151,23 @@ export class NgxAudioWaveComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         const audio = this.audio?.nativeElement;
         if (audio) {
-          const percent = this.calculatePercent(this.exactDuration, audio.currentTime);
-          this.exactPlayedPercent = percent < 100 ? percent : 100;
-          this.exactCurrentTime = audio.currentTime;
+          const percent = this.calculatePercent(this._exactDuration(), audio.currentTime);
+          this._exactPlayedPercent.set(percent < 100 ? percent : 100);
+          this._exactCurrentTime.set(audio.currentTime);
 
-          this.isPause = audio.paused;
-
-          this.changeDetectorRef.markForCheck();
+          this._isPause.set(audio.paused);
         }
       })
   }
 
   private fetchAudio(audioSrc: string) {
-    this.isLoading = true;
-    this.changeDetectorRef.markForCheck();
+    this._isLoading.set(true);
 
     this.httpClient
       .get(audioSrc, {responseType: 'arraybuffer'})
       .pipe(
         finalize(() => {
-          this.isLoading = false;
-          this.changeDetectorRef.markForCheck();
+          this._isLoading.set(false);
         }),
         takeUntilDestroyed(this.destroyRef)
       )
@@ -157,18 +177,18 @@ export class NgxAudioWaveComponent implements OnInit, OnDestroy {
             const audioContext = new AudioContext();
             const audioBuffer = await audioContext.decodeAudioData(next);
 
-            this.exactDuration = audioBuffer.duration;
+            this._exactDuration.set(audioBuffer.duration);
 
             const filteredData = this.audioWaveService.filterData(audioBuffer);
-            this.normalizedData = this.audioWaveService.normalizeData(filteredData);
+            this._normalizedData.set(this.audioWaveService.normalizeData(filteredData));
           } catch (e) {
-            this.error = true;
+            this._error.set(true)
           }
         },
         error: (error) => {
           console.error(error);
 
-          this.error = true;
+          this._error.set(true)
         }
       });
   }

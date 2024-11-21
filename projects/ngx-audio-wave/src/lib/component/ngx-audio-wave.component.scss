@@ -22,7 +22,7 @@
     }
 
     rect {
-      fill: var(--color);
+      fill: var(--ngx-audio-wave-color);
 
       &:hover {
         opacity: 1;
@@ -79,7 +79,7 @@
     display: block;
     height: 100%;
     width: 5px;
-    background-color: var(--color);
+    background-color: var(--ngx-audio-wave-color);
     border-radius: 4px;
     opacity: .1;
 

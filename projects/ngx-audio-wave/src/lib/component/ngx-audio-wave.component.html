@@ -1,66 +1,66 @@
-@if (audioSrc && isPlatformBrowser) {
-  <audio #audioRef [src]="audioSrc"></audio>
+<audio #audioRef [src]="audioSrc()"></audio>
 
-  <div [style.--color]="color"
-       class="ngx-audio-wave-wrapper">
-    <ng-container *ngIf="!error; else errorMsg">
-      <ng-container *ngIf="!hideBtn">
-        <ng-container *ngIf="audioRef.paused; else pauseBtn">
-          <button class="ngx-audio-wave-btn" (click)="play()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path
-                d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
-            </svg>
-          </button>
-        </ng-container>
-        <ng-template #pauseBtn>
-          <button class="ngx-audio-wave-btn" (click)="pause()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path
-                d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
-            </svg>
-          </button>
-        </ng-template>
-      </ng-container>
-
-      <div class="ngx-audio-wave" [style.height]="height+'px'" [style.width]="width+'px'">
-        <ng-container *ngIf="!isLoading; else loader">
-          <svg (click)="setTime($event)"
-               [attr.viewBox]="'0 0 ' + width + ' ' + height"
-               class="real">
-            <rect *ngFor="let rect of normalizedData; index as index"
-                  [attr.height]="rect * height"
-                  [attr.width]="2"
-                  [attr.x]="index * gap"
-                  [attr.y]="height - (rect * height)"
-                  [attr.rx]="rounded ? 1 : 0"
-                  [attr.ry]="rounded ? 1 : 0">
-            </rect>
+<div [style.--ngx-audio-wave-color]="color()"
+     class="ngx-audio-wave-wrapper">
+  @if (!_error()) {
+    @if (!hideBtn()) {
+      @if (audioRef.paused) {
+        <button class="ngx-audio-wave-btn" (click)="play()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path
+              d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
           </svg>
-          <div class="fake" [style.clip-path]="'inset(0px ' + (100 - exactPlayedPercent) + '% 0px 0px)'">
-            <svg [attr.viewBox]="'0 0 ' + width + ' ' + height">
-              <rect *ngFor="let rect of normalizedData; index as index"
-                    [attr.height]="rect * height"
-                    [attr.width]="2"
-                    [attr.x]="index * gap"
-                    [attr.y]="height - (rect * height)"
-                    [attr.rx]="rounded ? 1 : 0"
-                    [attr.ry]="rounded ? 1 : 0">
+        </button>
+      } @else {
+        <button class="ngx-audio-wave-btn" (click)="pause()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path
+              d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
+          </svg>
+        </button>
+      }
+    }
+
+    <div class="ngx-audio-wave" [style.height]="height() + 'px'" [style.width]="width + 'px'">
+      @if (!_isLoading()) {
+        <svg (click)="setTime($event)"
+             [attr.viewBox]="'0 0 ' + width + ' ' + height()"
+             class="real">
+          @for (rect of _normalizedData(); track rect; let index = $index) {
+            <rect
+              [attr.height]="rect * height()"
+              [attr.width]="2"
+              [attr.x]="index * gap()"
+              [attr.y]="height() - (rect * height())"
+              [attr.rx]="rounded() ? 1 : 0"
+              [attr.ry]="rounded() ? 1 : 0">
+            </rect>
+          }
+        </svg>
+
+        <div class="fake" [style.clip-path]="'inset(0px ' + (100 - _exactPlayedPercent()) + '% 0px 0px)'">
+          <svg [attr.viewBox]="'0 0 ' + width + ' ' + height()">
+            @for (rect of _normalizedData(); track rect; let index = $index) {
+              <rect
+                [attr.height]="rect * height()"
+                [attr.width]="2"
+                [attr.x]="index * gap()"
+                [attr.y]="height() - (rect * height())"
+                [attr.rx]="rounded() ? 1 : 0"
+                [attr.ry]="rounded() ? 1 : 0">
               </rect>
-            </svg>
-          </div>
-        </ng-container>
-        <ng-template #loader>
-          <div class="ngx-audio-wave-loading">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </ng-template>
-      </div>
-    </ng-container>
-    <ng-template #errorMsg>
-      Some errors occured
-    </ng-template>
-  </div>
-}
+            }
+          </svg>
+        </div>
+      } @else {
+        <div class="ngx-audio-wave-loading">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      }
+    </div>
+  } @else {
+    Some errors occured
+  }
+</div>

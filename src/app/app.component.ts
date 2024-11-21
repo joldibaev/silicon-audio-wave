@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ToTimerPipe} from './pipes/to-timer.pipe';
-import {NgxAudioWaveModule} from 'ngx-audio-wave';
+import {NgxAudioWaveModule} from '../../projects/ngx-audio-wave/src/lib/ngx-audio-wave.module';
 
 @Component({
   selector: 'app-root',
