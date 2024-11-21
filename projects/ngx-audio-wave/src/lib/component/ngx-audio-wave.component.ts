@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
@@ -6,10 +7,9 @@ import {
   inject,
   input,
   OnDestroy,
-  OnInit,
   PLATFORM_ID,
   signal,
-  ViewChild
+  viewChild
 } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {isPlatformBrowser} from "@angular/common";
@@ -24,7 +24,7 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
   styleUrls: ['./ngx-audio-wave.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NgxAudioWaveComponent implements OnInit, OnDestroy {
+export class NgxAudioWaveComponent implements AfterViewInit, OnDestroy {
   color = input('#1e90ff');
   audioSrc = input.required<string>();
   height = input(25);
@@ -48,7 +48,7 @@ export class NgxAudioWaveComponent implements OnInit, OnDestroy {
   private readonly audioWaveService = inject(NgxAudioWaveService);
   private readonly destroyRef = inject(DestroyRef);
 
-  @ViewChild('audioRef') private audio?: ElementRef<HTMLAudioElement>;
+  private audioRef = viewChild.required<ElementRef<HTMLAudioElement>>('audioRef');
 
   get exactPlayedPercent() {
     return this._exactPlayedPercent();
@@ -86,7 +86,7 @@ export class NgxAudioWaveComponent implements OnInit, OnDestroy {
     return this.audioWaveService.samples * this.gap();
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     if (this.isPlatformBrowser) {
       this.fetchAudio(this.audioSrc());
 
@@ -101,33 +101,31 @@ export class NgxAudioWaveComponent implements OnInit, OnDestroy {
   play(time: number = 0) {
     if (!this.isPlatformBrowser) return;
 
-    const audio = this.audio?.nativeElement;
-    if (audio) {
-      void audio.play();
+    const audio = this.audioRef().nativeElement;
+    void audio.play();
 
-      if (time) {
-        audio.currentTime = time;
-      }
+    if (time) {
+      audio.currentTime = time;
     }
   }
 
   pause() {
     if (!this.isPlatformBrowser) return;
 
-    const audio = this.audio?.nativeElement;
-    if (audio) {
-      audio.pause();
-    }
+    const audio = this.audioRef().nativeElement;
+    audio.pause();
   }
 
   stop() {
     if (!this.isPlatformBrowser) return;
 
-    const audio = this.audio?.nativeElement;
-    if (audio) {
-      audio.currentTime = 0;
-      this.pause();
-    }
+    const audio = this.audioRef().nativeElement;
+    audio.currentTime = 0;
+    this.pause();
+  }
+
+  private calculatePercent(total: number, value: number) {
+    return (value / total) * 100 || 0;
   }
 
   setTime(mouseEvent: MouseEvent) {
@@ -141,15 +139,11 @@ export class NgxAudioWaveComponent implements OnInit, OnDestroy {
     void this.play(time);
   }
 
-  private calculatePercent(total: number, value: number) {
-    return (value / total) * 100 || 0;
-  }
-
   private startInterval() {
     interval(100)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        const audio = this.audio?.nativeElement;
+        const audio = this.audioRef().nativeElement;
         if (audio) {
           const percent = this.calculatePercent(this._exactDuration(), audio.currentTime);
           this._exactPlayedPercent.set(percent < 100 ? percent : 100);
@@ -172,10 +166,10 @@ export class NgxAudioWaveComponent implements OnInit, OnDestroy {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe({
-        next: async (next) => {
+        next: async (arrayBuffer) => {
           try {
             const audioContext = new AudioContext();
-            const audioBuffer = await audioContext.decodeAudioData(next);
+            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
             this._exactDuration.set(audioBuffer.duration);
 
