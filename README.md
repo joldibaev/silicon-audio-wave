@@ -1,59 +1,106 @@
-# SiliconAudioWave19
+# Audio Wave for Angular 13+
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.0.
+Very simple audio wave system
 
-## Development server
+## Screen
+![alt text](https://github.com/joldibaev/silicon-audio-wave/raw/master/public/demo2.png)
 
-To start a local development server, run:
+## Installation
 
-```bash
-ng serve
+Install the npm package.
+
+	npm i ngx-audio-wave --save
+
+Import module:
+
+```ts
+import {NgxAudioWaveModule} from "ngx-audio-wave";
+
+@NgModule({
+  imports: [NgxAudioWaveModule]
+})
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Usage
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```ts
+audioSrc = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3';
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+```html
+<section>
+  <div>played percent: {{ngxAudioWave.playedPercent}} ({{ngxAudioWave.exactPlayedPercent}})</div>
+  <div>current time: {{ngxAudioWave.currentTime}} ({{ngxAudioWave.exactCurrentTime}})</div>
 
-```bash
-ng generate --help
+  <ngx-audio-wave
+    #ngxAudioWave
+    audioSrc="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoptalk-clip.mp3"
+  ></ngx-audio-wave>
+
+  <div>duration: {{ngxAudioWave.duration}} ({{ngxAudioWave.exactDuration}})</div>
+</section>
 ```
 
-## Building
+## Properties
 
-To build the project run:
+```html
+<!-- rounded -->
+<ngx-audio-wave [rounded]="false" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
 
-```bash
-ng build
+<!-- color -->
+<ngx-audio-wave color="#ee2133" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+
+<!-- isLoading -->
+<section>
+  <ngx-audio-wave #audioRef color="#ee2133" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+  <div *ngIf="!audioRef.isLoading">duration: {{ngxAudioWave.duration|toTimer}} (no duration while loading)</div>
+  <div>duration: {{ngxAudioWave.duration|toTimer}} (zero will be display while loading)</div>
+</section>
+
+<!-- height -->
+<ngx-audio-wave [height]="50" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+<ngx-audio-wave [height]="100" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+<ngx-audio-wave [height]="10" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+
+<!-- gap -->
+<ngx-audio-wave [gap]="1" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+<ngx-audio-wave [gap]="2" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+<ngx-audio-wave [gap]="9" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+
+<!-- error will be displayed, cause 404 -->
+<ngx-audio-wave audioSrc="assets/no_file.mp3"></ngx-audio-wave>
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Custom btn
 
-## Running unit tests
+### One action btn
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+```html
+<ngx-audio-wave #audioRef1 [hideBtn]="true" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+<button (click)="audioRef1.play()">Play</button>
+<button (click)="audioRef1.pause()">Pause</button>
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+### Toggle btn
+```html
+<b>Toggle btn (is pause: {{audioRef2.isPause}})</b>
+<ngx-audio-wave #audioRef2 [hideBtn]="true" audioSrc="assets/voice_29-06-2022_23-30-15.ogg"></ngx-audio-wave>
+<button *ngIf="audioRef2.isPause" (click)="audioRef2.play()">Play</button>
+<button *ngIf="!audioRef2.isPause" (click)="audioRef2.pause()">Pause</button>
+<button (click)="audioRef2.stop()">Stop</button>
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+or you can get access to The HTML ```<audio>``` element inside component
+```audioRef2.audio?.nativeElement```
 
-## Additional Resources
+Example:
+```html
+<button *ngIf="audioRef2.audio?.nativeElement?.paused" (click)="audioRef2.play()">Play</button>
+<button *ngIf="!audioRef2.audio?.nativeElement?.paused" (click)="audioRef2.pause()">Pause</button>
+```
+#### WARNING: using this code will lead to [NG0100: ExpressionChangedAfterItHasBeenCheckedError]
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Source
+
+https://github.com/joldibaev/silicon-audio-wave/tree/master/projects/ngx-audio-wave
